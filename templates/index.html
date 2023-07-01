@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iris Flower Classifier</title>
+
+    <script
+      src="https://unpkg.com/htmx.org@1.9.4"
+      integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <style>
+    .error-message {
+      color: red;
+    }
+    .error input {
+      box-shadow: 0 0 3px #cc0000;
+    }
+    .valid input {
+      box-shadow: 0 0 3px #36cc00;
+    }
+  </style>
+  <body class="bg-blue-500">
+    <div class="flex items-center min-h-screen">
+      <div class="w-11/12 md:w-full md:max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+        <h1 class="text-3xl text-center font-semibold font-sans m-5">Iris Flower Classifier</h1>
+        <p class="text-center mt-2 mb-2">This application utilises 3 LogisticRegression classifiers with one-vs-rest strategy to classify species of Iris flower based on petal and sepal dimensions.</p>
+        <form
+          hx-post="/classify"
+          hx-target="#classification"
+          hx-trigger="submit"
+        >
+          {% for param in params %} {% include 'param-field.html' with context
+          %} {% endfor %}
+          <button
+            class="btn btn-default w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+          >
+            Submit
+          </button>
+        </form>
+        <div id="classification"></div>
+      </div>
+    </div>
+  </body>
+</html>

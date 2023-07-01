@@ -1,0 +1,8 @@
+<div id="classification">
+  <p class="text-md">Flower classified as - <span class="font-semibold font-mono">{{ class }}</span></p>
+  <img
+    id="classified-image"
+    src="{{ url_for('static', path='/img/%s.jpeg' % class) }}"
+    alt="Image of {{ class }} flower"
+  />
+</div>
