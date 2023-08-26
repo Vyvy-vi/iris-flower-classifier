@@ -5,8 +5,10 @@ from fastapi.templating import Jinja2Templates
 
 from pydantic import BaseModel
 
-from typing import Optional,  Annotated
+from typing import Optional, Annotated
 from classification_model import predict
+
+import uvicorn
 
 app = FastAPI()
 app.mount("/static/", StaticFiles(directory="static"), name="static")
@@ -23,19 +25,27 @@ class InputParams(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "params": ["petal_length", "petal_width", "sepal_length", "sepal_width"]
-    })
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "params": ["petal_length", "petal_width", "sepal_length", "sepal_width"],
+        },
+    )
 
 
 @app.get("/valid-float", response_class=HTMLResponse)
 async def validate_floats(request: Request):
     param, val = list(request.query_params.items())[0]
     if not val.isalpha():
-        return templates.TemplateResponse("param-field.html", {"request": request, "param": param, "error": None, "value": val}) 
+        return templates.TemplateResponse(
+            "param-field.html", {"request": request, "param": param, "error": None, "value": val}
+        )
     else:
-        return templates.TemplateResponse("param-field.html", {"request": request, "param": param, "error": "This param must be a float64 value"})  
+        return templates.TemplateResponse(
+            "param-field.html",
+            {"request": request, "param": param, "error": "This param must be a float64 value"},
+        )
 
 
 @app.post("/classify", response_class=HTMLResponse)
@@ -44,8 +54,13 @@ async def classify_endpoint(
     petal_length: Annotated[str, Form()],
     petal_width: Annotated[str, Form()],
     sepal_length: Annotated[str, Form()],
-    sepal_width: Annotated[str, Form()]
+    sepal_width: Annotated[str, Form()],
 ):
     predicted_class = predict([petal_length, petal_width, sepal_length, sepal_width])
-    print(predicted_class)
-    return templates.TemplateResponse("classification.html", {"request": request, "class": predicted_class})
+    return templates.TemplateResponse(
+        "classification.html", {"request": request, "class": predicted_class}
+    )
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
