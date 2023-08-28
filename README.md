@@ -13,11 +13,16 @@ https://github.com/Vyvy-vi/iris-flower-classifier/assets/62864373/4d32b28f-fd88-
 This page is currently deployed. [View the live website.](https://iris-flower-ml.vercel.app/)
 
 ## Implementation details
-### Features given in the dataset:
+### Features given in the dataset (input features):
 - Petal length
 - Petal width
 - Sepal length
 - Sepal width
+
+### Classes Classified (target labels):
+- Iris-setosa
+- Iris-versicolor
+- Iris-virginica
 
 ### Model used:
 - `m` - training examples, `w` - weights vector, `b` - bias
