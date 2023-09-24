@@ -16,13 +16,6 @@ app.mount("/static/", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
-class InputParams(BaseModel):
-    petal_length: Optional[str] = None
-    petal_width: Optional[str] = None
-    sepal_length: Optional[str] = None
-    sepal_width: Optional[str] = None
-
-
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse(
@@ -39,12 +32,14 @@ async def validate_floats(request: Request):
     param, val = list(request.query_params.items())[0]
     if not val.isalpha():
         return templates.TemplateResponse(
-            "param-field.html", {"request": request, "param": param, "error": None, "value": val}
+            "param-field.html", {"request": request,
+                                 "param": param, "error": None, "value": val}
         )
     else:
         return templates.TemplateResponse(
             "param-field.html",
-            {"request": request, "param": param, "error": "This param must be a float64 value"},
+            {"request": request, "param": param,
+                "error": "This param must be a float64 value"},
         )
 
 
@@ -56,7 +51,8 @@ async def classify_endpoint(
     sepal_length: Annotated[str, Form()],
     sepal_width: Annotated[str, Form()],
 ):
-    predicted_class = predict([petal_length, petal_width, sepal_length, sepal_width])
+    predicted_class = predict(
+        [petal_length, petal_width, sepal_length, sepal_width])
     return templates.TemplateResponse(
         "classification.html", {"request": request, "class": predicted_class}
     )
