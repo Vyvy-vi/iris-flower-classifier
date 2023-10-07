@@ -5,7 +5,8 @@ The trained model's weights are then employed to serve predictions through a web
 
 ## Preview
 
-https://github.com/Vyvy-vi/iris-flower-classifier/assets/62864373/4d32b28f-fd88-45f9-b937-7fedd195de77
+![preview](https://github.com/Vyvy-vi/iris-flower-classifier/assets/7595802/17128a27-92ab-4e8c-80e4-0cdec20c2879)
+
 
 
 ## Live Version
